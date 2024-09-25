@@ -9,6 +9,7 @@ const Login = () => {
 
   const [email, setEmail] = useState('user12@gmail.com')
   const [password, setPassword] = useState('User12@pass')
+  const [error, setError] = useState('')
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -24,6 +25,7 @@ const Login = () => {
       return navigate('/')
 
     }catch(err){
+      setError(err?.response?.data || 'An error occurred')
       console.log(err)
     }
   }
@@ -57,6 +59,11 @@ const Login = () => {
           type="submit"
           onClick={handleLogin}
           >Login</button>
+        
+        {error && <div
+          className="text-red-500 mt-2"
+          > Error - {error}</div>
+        }
       </form>
     </div>
   )
