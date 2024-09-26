@@ -25,11 +25,17 @@ const Feed = () => {
     getFeed()
   }, [])
 
+  if(feed.length === 0) return (
+    <div className="flex flex-col items-center justify-center h-screen bg-base-200">
+      <h1 className="text-3xl">No Users Found</h1>
+    </div>
+  )
+
   return feed && (
     <div
       className="flex flex-col items-center justify-center h-screen bg-base-200"
       >
-      <UserCard  user={feed[2]}/>
+      <UserCard  user={feed[0]}/>
       
     </div>
   )
