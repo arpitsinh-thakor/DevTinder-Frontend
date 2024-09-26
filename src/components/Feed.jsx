@@ -25,7 +25,7 @@ const Feed = () => {
     getFeed()
   }, [])
 
-  if(feed.length === 0) return (
+  if(feed == null || feed.length === 0) return (
     <div className="flex flex-col items-center justify-center h-screen bg-base-200">
       <h1 className="text-3xl">No Users Found</h1>
     </div>

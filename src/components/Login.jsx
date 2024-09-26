@@ -9,6 +9,9 @@ const Login = () => {
 
   const [email, setEmail] = useState('user12@gmail.com')
   const [password, setPassword] = useState('User12@pass')
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [isLoginForm, setIsLoginForm] = useState(true)
   const [error, setError] = useState('')
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -30,16 +33,54 @@ const Login = () => {
     }
   }
 
+  const handleSignUp = async (e) => {
+    e.preventDefault()
+    try{
+      const res = await axios.post(BASE_URL + '/signup', {
+        firstName,
+        lastName,
+        email,
+        password
+      }, { withCredentials: true })
+      console.log(res.data)
+      dispatch(addUser(res.data))
+      return navigate('/profile')
+
+    }catch(err){
+      setError(err?.response?.data || 'An error occurred')
+      console.log(err)
+    }
+  }
+
+
+
   return (
     <div
       className="flex flex-col"
       >
       <h1
         className="text-center text-4xl font-bold text-white mt-10 mb-5"
-        >Login</h1>
+        >{isLoginForm ? "Login" : "SignUp"}</h1>
       <form
         className="flex flex-col items-center"
         >
+        { !isLoginForm && <>
+            <input
+              className="border border-gray-300 rounded-md p-2 mb-2 w-1/4"
+              placeholder="First Name"
+              type="text"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+            />
+            <input
+              className="border border-gray-300 rounded-md p-2 mb-2 w-1/4"
+              placeholder="Last Name"
+              type="text"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+            />
+          </>
+        }
         <input
           className="border border-gray-300 rounded-md p-2 mb-2 w-1/4"
           placeholder="Email"
@@ -57,8 +98,14 @@ const Login = () => {
         <button
           className="bg-blue-500 text-white p-2 rounded-md w-1/4"
           type="submit"
-          onClick={handleLogin}
-          >Login</button>
+          onClick={isLoginForm ? handleLogin : handleSignUp}
+          >{isLoginForm ? "Login" : "SignUp"}</button>
+
+        <p
+          className="text-blue-500 mt-2 cursor-pointer"
+          onClick={() => setIsLoginForm(!isLoginForm)}
+          >{isLoginForm ? "Create an account" : "Already have an account?"}
+          </p>
         
         {error && <div
           className="text-red-500 mt-2"

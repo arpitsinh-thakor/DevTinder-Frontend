@@ -9,10 +9,10 @@ const EditProfile = ({user}) => {
 
     const [firstName, setFirstName] = useState(user.firstName || '')
     const [lastName, setLastName] = useState(user.lastName || '')
-    const [photoUrl, setPhotoUrl] = useState(user.photoUrl || '')
-    const [age, setAge] = useState(user.age || '')
-    const [gender, setGender] = useState(user.gender || '')
-    const [about, setAbout] = useState(user.about || '')
+    const [photoUrl, setPhotoUrl] = useState('')
+    const [age, setAge] = useState(0)
+    const [gender, setGender] = useState('')
+    const [about, setAbout] = useState('Write something about yourself')
     const dispatch = useDispatch()
 
     const saveProfile = async () => {
@@ -25,10 +25,6 @@ const EditProfile = ({user}) => {
                 age,
                 about,
             }, { withCredentials: true })
-            
-            if(res.status === 200){
-                alert('Profile Updated')
-            }
             
             dispatch(addUser(res.data))
 
