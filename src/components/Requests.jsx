@@ -1,7 +1,7 @@
 import axios from "axios"
 import { BASE_URL } from "../utils/constants"
 import { useDispatch, useSelector } from "react-redux"
-import { addRequests } from "../utils/requestSlice"
+import { addRequests, removeRequests } from "../utils/requestSlice"
 import { useEffect } from "react"
 
 const Requests = () => {
@@ -21,6 +21,21 @@ const Requests = () => {
     useEffect(() => {
         fetchRequest()
     }, [])
+
+   const reviewRequest = async (_id, status) => {
+         try{
+              const res = await axios.post(BASE_URL + '/request/review/'+status+"/"+_id, {
+                requestId: _id,
+                status
+              }, { withCredentials: true })
+              if(res.status === 200){
+                fetchRequest()
+                dispatch(removeRequests(_id))
+              }
+         }catch(err){
+              console.log(err)
+         }
+    }
 
   return requests && (
     <div
@@ -52,9 +67,11 @@ const Requests = () => {
                         <div className="flex flex-col gap-2">
                             <button
                                 className="btn btn-primary"
+                                onClick={() => reviewRequest(request._id, 'accepted')}
                                 >Accept</button>
                             <button
                                 className="btn btn-secondary"
+                                onClick={() => reviewRequest(request._id, 'rejected')}
                                 >Reject</button>
                         </div>
 
