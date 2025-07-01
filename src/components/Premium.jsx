@@ -1,8 +1,20 @@
 import axios from "axios"
 import { BASE_URL } from "../utils/constants"
+import { useState } from "react";
 
 
 const Premium = () => {
+
+    const [isPremiumUser, setIsPremiumUser] = useState(false);
+
+    const verifyPayment = async () => {
+        const res = await axios.post(BASE_URL + "/payment/verify", {}, { withCredentials: true });
+        if (res.data.success) {
+            setIsPremiumUser(true);
+        } else {
+            alert("Payment verification failed. Please try again.");
+        }
+    }
 
     const handleBuyMembership = async (type) => {
         
@@ -27,6 +39,7 @@ const Premium = () => {
                 email: email,
                 contact: "9999999999" 
             },
+            handler: verifyPayment,
             theme: {
                 color: "#3399cc"
             }
@@ -36,7 +49,13 @@ const Premium = () => {
         rzp.open();
         
     }
-  return (
+  return isPremiumUser ? (
+    <div className="premium-container flex flex-col items-center justify-center h-screen">
+      <h1>Welcome to Premium Membership</h1>
+      <p>Thank you for being a premium user!</p>
+    </div>
+  ) : (
+        
     //silver and gold membership options
     <div className="flex flex-col items-center justify-center h-screen">
         <h1 className="text-3xl mb-4">Premium Membership</h1>
