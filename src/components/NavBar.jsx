@@ -62,6 +62,12 @@ const NavBar = () => {
               <span className="badge">New</span>
             </Link>
           </li>
+          <li>
+            <Link className="justify-between" to='/premium'>
+              Premium
+              <span className="badge">New</span>
+            </Link>
+          </li>
           <li><a
                 onClick={handleLogout}
                 >Logout</a></li>
