@@ -13,11 +13,9 @@ const Premium = () => {
 
 
     const verifyPayment = async () => {
-        const res = await axios.post(BASE_URL + "/payment/verify", {}, { withCredentials: true });
-        if (res.data.success) {
+        const res = await axios.get(BASE_URL + "/payment/verify", { withCredentials: true });
+        if(res.data.isPremium){
             setIsPremiumUser(true);
-        } else {
-            alert("Payment verification failed. Please try again.");
         }
     }
 
