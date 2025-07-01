@@ -1,11 +1,16 @@
 import axios from "axios"
 import { BASE_URL } from "../utils/constants"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 const Premium = () => {
 
     const [isPremiumUser, setIsPremiumUser] = useState(false);
+
+    useEffect(() => {
+        verifyPayment();
+    }, []);
+
 
     const verifyPayment = async () => {
         const res = await axios.post(BASE_URL + "/payment/verify", {}, { withCredentials: true });
